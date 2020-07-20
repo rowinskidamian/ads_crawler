@@ -1,16 +1,12 @@
 package parsers;
 
-import model.SingleAd;
-import model.SingleAdsDB;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public abstract class ParsePagesNumber {
@@ -38,7 +34,6 @@ public abstract class ParsePagesNumber {
                         .append(i+1);
                 list.add(stringBuilder.toString());
             }
-
 
         } catch (IOException ioException) {
             ioException.printStackTrace();

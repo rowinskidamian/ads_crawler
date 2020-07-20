@@ -1,16 +1,35 @@
 package model;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class SingleAd {
+    private int id;
     private String title;
     private String link;
-    private String price;
+    private int price;
+    private Date dateUploaded;
+    private String district;
 
-    public SingleAd(String title, String link, String price) {
+    public SingleAd() {
+    }
+
+    public SingleAd(String title, String link, String price, Date dateUploaded, String district) {
+        this.title = title;
+        this.link = link;
+        this.price = getPriceFromString(price);
+        this.dateUploaded = dateUploaded;
+        this.district = district;
+    }
+
+    public SingleAd(int id, String title, String link, int price, Date dateUploaded, String district) {
+        this.id = id;
         this.title = title;
         this.link = link;
         this.price = price;
+        this.dateUploaded = dateUploaded;
+        this.district = district;
     }
 
     public String getTitle() {
@@ -29,12 +48,33 @@ public class SingleAd {
         this.link = link;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
+    }
+
+    public Date getDateUploaded() {
+        return dateUploaded;
+    }
+
+    public void setDateUploaded(Date dateUploaded) {
+        this.dateUploaded = dateUploaded;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    private int getPriceFromString(String price) {
+        String replacement = price.replaceAll("[\\szł]", "");
+        return Integer.parseInt(replacement);
     }
 
     @Override

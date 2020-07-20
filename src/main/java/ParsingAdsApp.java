@@ -22,7 +22,7 @@ public class ParsingAdsApp {
             try {
                 Thread.sleep(getRandomThreadMillis());
 
-                Map<String, SingleAd> mapWithAds = ParseAdByUrl.getFrom(listOfUrlsToParse.get(i));
+                Map<String, SingleAd> mapWithAds = ParseAdByUrl.getFrom(listOfUrlsToParse.get(i), "Ursynów");
                 Set<String> stringSet = mapWithAds.keySet();
                 stringSet.forEach(k -> mapWithAdsAll.put(k, mapWithAds.get(k)));
                 System.out.println("Strona " + i);

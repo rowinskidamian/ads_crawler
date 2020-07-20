@@ -1,5 +1,6 @@
 package parsers;
 
+import dao.SingleAdDao;
 import model.SingleAd;
 import model.SingleAdsDB;
 import org.jsoup.Connection;
@@ -23,6 +24,7 @@ public class ParseAdByUrl {
         Connection connection = Jsoup.connect(url)
                 .userAgent(USER_AGENT);
         SingleAdsDB singleAdsDB = new SingleAdsDB();
+        SingleAdDao singleAdDao = new SingleAdDao();
 
         try {
             Document document = connection.get();
@@ -36,6 +38,7 @@ public class ParseAdByUrl {
 
                 SingleAd singleAd = new SingleAd(adTitle, adLink, adPrice, date, district);
                 singleAdsDB.addAdToDB(singleAd);
+                singleAdDao.create(singleAd);
             }
         } catch (IOException ioException) {
             ioException.printStackTrace();

@@ -73,6 +73,8 @@ public class SingleAd {
 
     private int getPriceFromString(String price) {
         String replacement = price.replaceAll("[\\szł]", "");
+        String[] split = replacement.split(",");
+        replacement = split[0];
         return Integer.parseInt(replacement);
     }
 

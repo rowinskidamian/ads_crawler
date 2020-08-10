@@ -17,7 +17,6 @@ public abstract class ParsePagesNumber {
     public static List<String> getFrom(String url) {
         List<String> list = new ArrayList<>();
 
-
         Connection connection = Jsoup.connect(url)
                 .userAgent(USER_AGENT);
         try {

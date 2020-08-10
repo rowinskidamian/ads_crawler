@@ -19,33 +19,33 @@ public class ParseAdByUrl {
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" +
             " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36";
 
-    public static Map<String, SingleAd> getFrom(String url, String district) {
+    private static SingleAdsDB singleAdsDB = new SingleAdsDB();
 
+
+    public static Map<String, SingleAd> addAdsToBaseFrom(String url, String district) {
+        SingleAdDao singleAdDao = new SingleAdDao(district);
         Connection connection = Jsoup.connect(url)
                 .userAgent(USER_AGENT);
-        SingleAdsDB singleAdsDB = new SingleAdsDB();
-        SingleAdDao singleAdDao = new SingleAdDao();
 
-        try {
-            Document document = connection.get();
-            Elements advertisementContainer = document.select("#offers_table .wrap");
+            try {
+                Document document = connection.get();
+                Elements advertisementContainer = document.select("#offers_table .wrap");
 
-            for (Element element : advertisementContainer) {
-                String adTitle = element.select("h3 strong").text();
-                String adLink = element.select("h3 a[href]").attr("href");
-                String adPrice = element.select(".price strong").text();
-                Date date = Date.valueOf(LocalDate.now());
+                for (Element element : advertisementContainer) {
+                    String adTitle = element.select("h3 strong").text();
+                    String adLink = element.select("h3 a[href]").attr("href");
+                    String adPrice = element.select(".price strong").text();
+                    Date date = Date.valueOf(LocalDate.now());
 
-                SingleAd singleAd = new SingleAd(adTitle, adLink, adPrice, date, district);
-                singleAdsDB.addAdToDB(singleAd);
-                singleAdDao.create(singleAd);
+                    SingleAd singleAd = new SingleAd(adTitle, adLink, adPrice, date, district);
+                    singleAdsDB.addAdToDB(singleAd);
+                    singleAdDao.create(singleAd);
+                }
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
             }
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
+
+            return singleAdsDB.getMapDB();
         }
-
-        return singleAdsDB.getMapDB();
-    }
-
 
 }

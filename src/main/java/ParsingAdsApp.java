@@ -1,5 +1,7 @@
-import dao.SingleAdDao;
+import dao.UrlToParseDao;
 import model.SingleAd;
+import model.UrlDistricts;
+import model.UrlToParse;
 import parsers.ParseAdByUrl;
 import parsers.ParsePagesNumber;
 
@@ -12,21 +14,32 @@ public class ParsingAdsApp {
 
     public static void main(String[] args) {
 
+        Map<Integer, UrlToParse> mapOfDistrictsToParse = getMapOfDistrictsToParse();
+
+        List<String> listOfUrlsToParse = getListOfUrlToParse();
+
+        addAdsToBase(listOfUrlsToParse);
+    }
+
+    private static Map<Integer, UrlToParse> getMapOfDistrictsToParse() {
+        UrlToParseDao urlToParseDao = new UrlToParseDao();
+        return urlToParseDao.findAll();
+    }
+
+    private static List<String> getListOfUrlToParse() {
         List<String> listOfUrlsToParse = ParsePagesNumber.getFrom(URL_URSYNOW);
-        SingleAdDao singleAdDao = new SingleAdDao();
         System.out.println("Strony do sparsowania");
         listOfUrlsToParse.forEach(System.out::println);
+        return listOfUrlsToParse;
+    }
 
+    private static void addAdsToBase(List<String> listOfUrlsToParse) {
         Map<String, SingleAd> mapWithAdsAll = new LinkedHashMap<>();
-
-//        Map<String, SingleAd> ursynowAds = ParseAdByUrl.getFrom(URL_URSYNOW, "Ursynów");
-//        Set<String> keysMapUrsynowSet = ursynowAds.keySet();
-
         for (int i = 0; i < listOfUrlsToParse.size(); i++) {
             try {
                 Thread.sleep(getRandomThreadMillis());
 
-                Map<String, SingleAd> mapWithAds = ParseAdByUrl.getFrom(listOfUrlsToParse.get(i), "Ursynów");
+                Map<String, SingleAd> mapWithAds = ParseAdByUrl.addAdsToBaseFrom(listOfUrlsToParse.get(i), "Ursynów");
                 Set<String> stringSet = mapWithAds.keySet();
                 stringSet.forEach(k -> mapWithAdsAll.put(k, mapWithAds.get(k)));
                 System.out.println("Strona sprasowana: " + i);
@@ -35,12 +48,6 @@ public class ParsingAdsApp {
                 e.printStackTrace();
             }
         }
-
-//        System.out.println("Lista ogłoszeń:");
-//
-//        for (String s : mapWithAdsAll.keySet()) {
-//            System.out.println(mapWithAdsAll.get(s));
-//        }
         System.out.println("Liczba ogłoszeń w bazie:");
         System.out.println(mapWithAdsAll.size());
     }

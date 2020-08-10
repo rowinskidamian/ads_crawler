@@ -7,11 +7,16 @@ import utils.DbUtil;
 import java.sql.*;
 
 public class SingleAdDao {
-    private static final String CREATE_AD_QUERY = "INSERT INTO single_ads(title,link,price,uploaded, district) " +
+    private static String dbName;
+    private static final String CREATE_AD_QUERY = "INSERT INTO " + dbName + "(title,link,price,uploaded, district) " +
             "VALUES (?,?,?,?,?)";
-    private static final String READ_AD_BY_DISTRICT_QUERY = "SELECT * FROM single_ads WHERE district = ?";
-    private static final String READ_AD_BY_UPLOADED_QUERY = "SELECT * FROM single_ads WHERE uploaded = ?;";
-    private static final String FIND_ALL_AD_QUERY = "SELECT * FROM single_ads";
+    private static final String READ_AD_BY_DISTRICT_QUERY = "SELECT * FROM " + dbName + " WHERE district = ?";
+    private static final String READ_AD_BY_UPLOADED_QUERY = "SELECT * FROM " + dbName + " WHERE uploaded = ?;";
+    private static final String FIND_ALL_AD_QUERY = "SELECT * FROM " + dbName;
+
+    public SingleAdDao(String dbName) {
+        this.dbName = dbName;
+    }
 
     public SingleAd create(SingleAd singleAd) {
         try (Connection connection = DbUtil.getInstance().getConnection();
@@ -35,7 +40,7 @@ public class SingleAdDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new CreationException("Problem z utworzeniem nowego zadania/ćwiczenia.");
+        throw new CreationException("Problem z utworzeniem nowego wpisu z ogloszeniem.");
     }
 
 

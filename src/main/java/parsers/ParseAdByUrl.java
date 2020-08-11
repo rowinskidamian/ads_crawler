@@ -21,9 +21,12 @@ public class ParseAdByUrl {
 
     private static SingleAdsDB singleAdsDB = new SingleAdsDB();
 
-
     public static Map<String, SingleAd> addAdsToBaseFrom(String url, String district) {
-        SingleAdDao singleAdDao = new SingleAdDao(district);
+        district = district.trim()
+                .toLowerCase()
+                .replaceAll(" ", "_")
+                .concat("_ads");
+        SingleAdDao singleAdDao = SingleAdDao.getSingleAdDaoForBase(district);
         Connection connection = Jsoup.connect(url)
                 .userAgent(USER_AGENT);
 

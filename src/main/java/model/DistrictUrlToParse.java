@@ -1,11 +1,11 @@
 package model;
 
-public class UrlToParse {
+public class DistrictUrlToParse {
     private int id;
     private String districtName;
     private String url;
 
-    public UrlToParse(int id, String districtName, String url) {
+    public DistrictUrlToParse(int id, String districtName, String url) {
         this.id = id;
         this.districtName = districtName;
         this.url = url;

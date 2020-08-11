@@ -8,14 +8,29 @@ import java.sql.*;
 
 public class SingleAdDao {
     private static String dbName;
-    private static final String CREATE_AD_QUERY = "INSERT INTO " + dbName + "(title,link,price,uploaded, district) " +
-            "VALUES (?,?,?,?,?)";
-    private static final String READ_AD_BY_DISTRICT_QUERY = "SELECT * FROM " + dbName + " WHERE district = ?";
-    private static final String READ_AD_BY_UPLOADED_QUERY = "SELECT * FROM " + dbName + " WHERE uploaded = ?;";
-    private static final String FIND_ALL_AD_QUERY = "SELECT * FROM " + dbName;
 
-    public SingleAdDao(String dbName) {
-        this.dbName = dbName;
+    private final String CREATE_AD_QUERY = generateCreateQuery();
+
+    // poniższe zmienne na razie są niepotrzebne, ale jak będą to trzeba je uzyskać jak z generateCreateQuery()
+    // wynika to stąd, że jest stworzona metoda statyczna tworząca obiekt, tak aby przy tworzeniu ustawić najpierw pole
+    // dbName, gdyby było przez constructor, to nie zadziała, bo kolejność to:
+    // 1. pola, 2. metody, 3. konstruktor
+    // CREATE_AD_QUERY nie jest też statyczne, bo najpierw tworzone są statyczne, a później dynamiczne
+    // dlatego jak jest zewnętrzna metoda statyczna tworząca obiekt, to najpierw ona jest wywołana i ustawi nam niestatyczne pola
+    // gdyby były statyczne pola, to byłyby od razu ustawione przed wywołaniem metody (chyba tak to jest?)
+
+//    private static final String READ_AD_BY_DISTRICT_QUERY = "SELECT * FROM " + dbName + " WHERE district = ?";
+//    private static final String READ_AD_BY_UPLOADED_QUERY = "SELECT * FROM " + dbName + " WHERE uploaded = ?;";
+//    private static final String FIND_ALL_AD_QUERY = "SELECT * FROM " + dbName;
+
+    public static SingleAdDao getSingleAdDaoForBase(String databaseNameFromUser) {
+        dbName = databaseNameFromUser;
+        return new SingleAdDao();
+    }
+
+    private String generateCreateQuery() {
+        return "INSERT INTO " + dbName + " (title,link,price,uploaded, district) " +
+                "VALUES (?,?,?,?,?)";
     }
 
     public SingleAd create(SingleAd singleAd) {

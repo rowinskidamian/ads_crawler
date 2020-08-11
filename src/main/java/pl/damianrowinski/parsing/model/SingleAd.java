@@ -1,4 +1,4 @@
-package model;
+package pl.damianrowinski.parsing.model;
 
 import java.sql.Date;
 import java.util.Objects;

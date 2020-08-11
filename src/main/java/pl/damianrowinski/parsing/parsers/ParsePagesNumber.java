@@ -1,4 +1,4 @@
-package parsers;
+package pl.damianrowinski.parsing.parsers;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;

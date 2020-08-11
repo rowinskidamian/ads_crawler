@@ -1,10 +1,12 @@
-package dao;
+package pl.damianrowinski.parsing.dao;
 
-import exceptions.CreationException;
-import model.SingleAd;
-import utils.DbUtil;
+import pl.damianrowinski.exceptions.CreationException;
+import pl.damianrowinski.parsing.model.SingleAd;
+import pl.damianrowinski.utils.DbUtil;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class SingleAdDao {
     private static String dbName;
@@ -21,7 +23,7 @@ public class SingleAdDao {
 
 //    private static final String READ_AD_BY_DISTRICT_QUERY = "SELECT * FROM " + dbName + " WHERE district = ?";
 //    private static final String READ_AD_BY_UPLOADED_QUERY = "SELECT * FROM " + dbName + " WHERE uploaded = ?;";
-//    private static final String FIND_ALL_AD_QUERY = "SELECT * FROM " + dbName;
+    private final String FIND_ALL_AD_QUERY = generateFindAllQuery();
 
     public static SingleAdDao getSingleAdDaoForBase(String databaseNameFromUser) {
         dbName = databaseNameFromUser;
@@ -31,6 +33,10 @@ public class SingleAdDao {
     private String generateCreateQuery() {
         return "INSERT INTO " + dbName + " (title,link,price,uploaded, district) " +
                 "VALUES (?,?,?,?,?)";
+    }
+
+    private String generateFindAllQuery() {
+        return "SELECT * FROM " + dbName;
     }
 
     public SingleAd create(SingleAd singleAd) {
@@ -56,6 +62,28 @@ public class SingleAdDao {
             e.printStackTrace();
         }
         throw new CreationException("Problem z utworzeniem nowego wpisu z ogloszeniem.");
+    }
+
+    public List<SingleAd> findAll() {
+        List<SingleAd> listOfSingleAds = new LinkedList<>();
+        try (Connection connection = DbUtil.getInstance().getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(FIND_ALL_AD_QUERY)) {
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String title = resultSet.getString("title");
+                String link = resultSet.getString("link");
+                int price = resultSet.getInt("price");
+                Date uploaded = resultSet.getDate("uploaded");
+                String district = resultSet.getString("district");
+                listOfSingleAds.add(new SingleAd(id, title, link, price, uploaded, district));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listOfSingleAds;
     }
 
 

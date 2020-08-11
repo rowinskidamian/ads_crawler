@@ -1,4 +1,4 @@
-package utils;
+package pl.damianrowinski.utils;
 
 import java.sql.Connection;
 import java.sql.SQLException;

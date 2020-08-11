@@ -1,4 +1,4 @@
-package model;
+package pl.damianrowinski.parsing.model;
 
 public class DistrictUrlToParse {
     private int id;

@@ -1,4 +1,4 @@
-package model;
+package pl.damianrowinski.parsing.model;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

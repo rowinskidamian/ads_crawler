@@ -1,17 +1,18 @@
-import dao.DistrictUrlToParseDao;
-import model.SingleAd;
-import model.DistrictUrlToParse;
-import parsers.ParseAdByUrl;
-import parsers.ParsePagesNumber;
+package pl.damianrowinski;
+
+import pl.damianrowinski.parsing.dao.DistrictUrlToParseDao;
+import pl.damianrowinski.parsing.model.SingleAd;
+import pl.damianrowinski.parsing.model.DistrictUrlToParse;
+import pl.damianrowinski.parsing.parsers.ParseAdByUrl;
+import pl.damianrowinski.parsing.parsers.ParsePagesNumber;
 
 import java.util.*;
 
 public class ParsingAdsApp {
 
-    public static void main(String[] args) {
+    public static void start() {
 
         List<DistrictUrlToParse> listOfDistrictsToParse = getListOfDistrictsToParse();
-
         addAdsFromDistrictsToBase(listOfDistrictsToParse);
 
     }
@@ -24,8 +25,6 @@ public class ParsingAdsApp {
                     List<String> listOfUrlsToParse = getListOfUrlToParse(district.getUrl());
                     addAdsToBase(listOfUrlsToParse, district.getDistrictName());
                 });
-
-
     }
 
     private static List<DistrictUrlToParse> getListOfDistrictsToParse() {

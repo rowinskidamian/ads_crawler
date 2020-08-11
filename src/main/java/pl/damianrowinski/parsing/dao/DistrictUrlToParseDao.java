@@ -1,7 +1,7 @@
-package dao;
+package pl.damianrowinski.parsing.dao;
 
-import model.DistrictUrlToParse;
-import utils.DbUtil;
+import pl.damianrowinski.parsing.model.DistrictUrlToParse;
+import pl.damianrowinski.utils.DbUtil;
 
 import java.sql.*;
 import java.util.*;

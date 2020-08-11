@@ -1,4 +1,4 @@
-package exceptions;
+package pl.damianrowinski.exceptions;
 
 public class CreationException extends RuntimeException{
 

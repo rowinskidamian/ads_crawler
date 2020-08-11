@@ -1,8 +1,8 @@
-package parsers;
+package pl.damianrowinski.parsing.parsers;
 
-import dao.SingleAdDao;
-import model.SingleAd;
-import model.SingleAdsDB;
+import pl.damianrowinski.parsing.dao.SingleAdDao;
+import pl.damianrowinski.parsing.model.SingleAd;
+import pl.damianrowinski.parsing.model.SingleAdsDB;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

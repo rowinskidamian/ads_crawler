@@ -6,8 +6,9 @@
 </head>
 <body>
 
-<c:forEach var="districtData" items="${totalAdsList}"></c:forEach>
-District name: ${districtData.districtName}, total ads: ${districtData.noOfAds} .
+<c:forEach var="districtAdsAmount" items="${totalAdsList}">
+District name: ${districtAdsAmount.districtName}, total ads: ${districtAdsAmount.noOfAds}. <br>
+</c:forEach>
 
 </body>
 </html>
